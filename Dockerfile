@@ -1,13 +1,10 @@
-FROM filebrowser/filebrowser:latest
+FROM alpine
 
-# Membuat folder data
-RUN mkdir -p /srv
+RUN apk add --no-cache curl tar && \
+    curl -L -o filebrowser.tar.gz https://github.com/filebrowser/filebrowser/releases/latest/download/linux-amd64-filebrowser.tar.gz && \
+    tar -xvzf filebrowser.tar.gz && \
+    chmod +x filebrowser
 
-# Menentukan working directory
-WORKDIR /srv
+EXPOSE 8080
 
-# Expose port
-EXPOSE 80
-
-# Command default
-CMD ["filebrowser", "-r", "/srv"]
+CMD ["./filebrowser", "-r", "/"]
